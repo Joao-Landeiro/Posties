@@ -1,0 +1,9 @@
+Reminder: Replace 'screenshot.png' in the README.md with an actual screenshot of your Post-it Notes app in action.
+
+To take a screenshot:
+1. Open the app in your browser
+2. Arrange a few notes of different colors with some sample text
+3. Take a screenshot of your entire browser window
+4. Crop the image as needed
+5. Save it as 'screenshot.png' in the root directory of the project
+6. Delete this placeholder file 

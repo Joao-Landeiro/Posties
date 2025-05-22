@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-it Notes App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Post-it Notes</h1>
+        <h2>Click anywhere to create a note or press 'N' key. Drag to move notes. Press a number to change color. Hit delete twice to delete a note.</h2>
+        <div id="color-selector">
+            <div class="color-circle color-1" data-color="1"><span>1</span></div>
+            <div class="color-circle color-2" data-color="2"><span>2</span></div>
+            <div class="color-circle color-3" data-color="3"><span>3</span></div>
+            <div class="color-circle color-4" data-color="4"><span>4</span></div>
+            <div class="color-circle color-5" data-color="5"><span>5</span></div>
+        </div>
+    </header>
+
+    <div id="notes-container">
+        <!-- Notes will be dynamically added here -->
+    </div>
+
+    <footer>
+        <p>Post-it Notes App - Your notes are saved locally</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

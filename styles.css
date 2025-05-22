@@ -1,0 +1,250 @@
+/* Define color variables for post-it notes */
+:root {
+  --postit-red: #FFADAD;
+  --postit-orange: #FFD6A5;
+  --postit-yellow: #FDFFB6;
+  --postit-green: #CAFFBF;
+  --postit-blue: #A0C4FF;
+}
+
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f5; /* Off-white background */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 20px 20px; /* Restore padding to be consistent */
+    box-sizing: border-box;
+}
+
+header {
+    text-align: left;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #666;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+#notes-container {
+    flex: 1;
+    position: relative;
+    min-height: 70vh;
+    padding: 0; /* Ensure no padding */
+    margin: 0; /* Ensure no margin */
+    border: none; /* Remove any borders */
+    overflow: visible; /* Make sure content can overflow */
+    box-sizing: border-box; /* Include padding in dimensions */
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Post-it note styles */
+.note {
+    position: absolute;
+    width: 200px;
+    min-height: 200px;
+    padding: 0;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    cursor: move;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    
+    /* Add transition for smooth animation */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, left 0.3s ease, top 0.3s ease;
+    
+    /* Ensure the transform origin is centered */
+    transform-origin: center center;
+}
+
+.note-header {
+    width: 100%;
+    height: 25px;
+    background-color: rgba(0,0,0,0.07); /* Glue effect */
+    cursor: move;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.note-content {
+    flex: 1;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    min-height: 130px;
+    background: transparent;
+    border: none;
+    resize: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 14px; /* Default size, will be dynamically adjusted */
+    line-height: 1.5;
+    outline: none;
+    overflow: hidden; /* Hide scrollbars */
+    text-overflow: ellipsis;
+    cursor: text;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 2px;
+}
+
+/* Update pastel colors for notes to use variables */
+.color-1 { background-color: var(--postit-red); }    /* Pastel red */
+.color-2 { background-color: var(--postit-orange); } /* Pastel orange */
+.color-3 { background-color: var(--postit-yellow); } /* Pastel yellow */
+.color-4 { background-color: var(--postit-green); }  /* Pastel green */
+.color-5 { background-color: var(--postit-blue); }   /* Pastel blue */
+
+/* Update header colors to use the same variables with opacity */
+.color-1 .note-header { background-color: rgba(255, 0, 0, 0.1); }
+.color-2 .note-header { background-color: rgba(255, 150, 0, 0.1); }
+.color-3 .note-header { background-color: rgba(255, 255, 0, 0.1); }
+.color-4 .note-header { background-color: rgba(0, 255, 0, 0.1); }
+.color-5 .note-header { background-color: rgba(0, 100, 255, 0.1); }
+
+/* Update the selection styles */
+.selected-note {
+    /* Remove the dashed outline */
+    outline: none;
+    
+    /* Make the note 10% larger when selected */
+    transform: scale(1.1);
+    
+    /* Add a wider shadow for the lifted effect */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    
+    /* Add a smooth transition for size and shadow changes */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .note {
+        width: 150px;
+        min-height: 150px;
+    }
+    
+    .note-content {
+        width: calc(100% - 16px);
+        height: calc(100% - 16px);
+        min-height: 90px;
+        font-size: 12px;
+        padding: 8px;
+        margin: 8px;
+    }
+    
+    .note-header {
+        height: 20px;
+    }
+}
+
+/* Update the shake effect animation to preserve the post-it size */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/* Separate keyframes for selected notes that are shaking */
+@keyframes selected-shake {
+    0%, 100% { transform: scale(1.1) translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: scale(1.1) translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: scale(1.1) translateX(2px); }
+}
+
+/* Apply the shake effect without changing size */
+.shake-effect:not(.selected-note) {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    border: 1px solid rgba(255, 0, 0, 0.3); /* Temporary red border during shake */
+}
+
+/* Special case for selected notes */
+.selected-note.shake-effect {
+    animation: selected-shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+/* Add style for notes that are at their text limit */
+.note-content[data-at-limit="true"] {
+    /* Optional visual indicator that the note is full */
+    caret-color: red; /* Makes the cursor red */
+}
+
+/* Color selector styles */
+#color-selector {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.color-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+}
+
+.color-circle.selected {
+    transform: scale(1.15);
+}
+
+.color-circle span {
+    color: rgba(0,0,0,0.6);
+    font-weight: bold;
+    font-size: 11px; /* 30% smaller than 16px */
+    pointer-events: none; /* Prevent the span from interfering with clicks */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1; /* Ensure the text doesn't add extra height */
+    transition: font-size 0.2s ease;
+}
+
+.color-circle.selected span {
+    font-size: 16px; /* Original size for selected circles */
+}
+
+/* Add specific styles for the drop area */
+#drop-area {
+    box-sizing: border-box; /* Include border in width/height calculations */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Very light, almost white */
+    border: none; /* No border */
+    border-radius: 8px;
+    z-index: 0; /* Ensure it's below the notes */
+}
